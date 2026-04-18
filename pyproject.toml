@@ -1,0 +1,43 @@
+[project]
+name = "custom-json-abm"
+version = "1.0.0"
+description = ""
+authors = [
+    {name = "mike",email = "m.orlov@technokert.ru"}
+]
+readme = "README.md"
+license = {text = "Proprietary. All rights reserved. Confidential and belonging to ABM."}
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "taskipy (>=1.14.1,<2.0.0)",
+    "type-cast-abm (>=1.0.79294,<2.0.0)",
+    "typing-extensions (>=4.15.0,<5.0.0)",
+]
+[tool.poetry]
+packages = [
+    { include = "custom_json" }
+]
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.5.1"
+pytest = "^9.0.2"
+
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[[tool.poetry.source]]
+name = "abm-jsc-pypi"
+url = "https://pypi2.abm-jsc.ru"
+priority = "primary"
+
+
+[tool.taskipy.tasks]
+install-hooks = "pre-commit install --hook-type commit-msg"
+setup-dev = "poetry install --no-root --with dev && task install-hooks"
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
