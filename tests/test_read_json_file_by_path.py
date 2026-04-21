@@ -1,11 +1,11 @@
 import json
 from unittest import mock
 
-from custom_json import read_json_file_by_path
+from wireform import read_json_file_by_path
 
 
 def test_read_json_file_by_path() -> None:
-    with mock.patch("custom_json.read_json_file_by_path.open") as open_:
+    with mock.patch("wireform.read_json_file_by_path.open") as open_:
         file = mock.MagicMock()
         open_.return_value.__enter__.return_value = file
         value = {"some": "json"}
