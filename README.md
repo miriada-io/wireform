@@ -5,7 +5,7 @@
 [![Tests](https://github.com/miriada-io/custom-json/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/miriada-io/custom-json/actions/workflows/tests.yml)
 [![License](https://img.shields.io/pypi/l/custom-json.svg?label=License)](https://github.com/miriada-io/custom-json/blob/master/LICENSE)
 
-A `json.dumps` drop-in that serializes dataclasses, `datetime`, `Decimal`, `bytes`, sets, exceptions, and anything you give a `__repr_in_dumps__` to.
+A `json.dumps` drop-in that serializes dataclasses, `datetime`, `Decimal`, `bytes`, sets, exceptions, and anything that implements `__repr_in_dumps__`.
 
 ## Installation
 
@@ -131,10 +131,10 @@ class Version(ReprInDumps):
         self.minor = minor
 
     def __repr_in_dumps__(self):
-        return {"major": self.major, "minor": self.minor}
+        return {"version": f"{self.major}.{self.minor}"}
 
 custom_dumps(Version(1, 2))
-# '{"major": 1, "minor": 2}'
+# '{"version": "1.2"}'
 ```
 
 ## File I/O
