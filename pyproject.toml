@@ -1,5 +1,5 @@
 [project]
-name = "custom-json"
+name = "wireform"
 version = "1.0.0"
 description = "Drop-in JSON encoder for dataclasses, datetimes, Decimal, bytes, sets, exceptions, and custom repr"
 authors = [
@@ -35,10 +35,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/miriada-io/custom-json"
-Repository = "https://github.com/miriada-io/custom-json"
-Issues = "https://github.com/miriada-io/custom-json/issues"
-Changelog = "https://github.com/miriada-io/custom-json/blob/master/CHANGELOG.md"
+Homepage = "https://github.com/miriada-io/wireform"
+Repository = "https://github.com/miriada-io/wireform"
+Issues = "https://github.com/miriada-io/wireform/issues"
+Changelog = "https://github.com/miriada-io/wireform/blob/master/CHANGELOG.md"
 
 [build-system]
 requires = ["hatchling>=1.27"]
@@ -48,7 +48,7 @@ build-backend = "hatchling.build"
 testpaths = ["tests"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/custom_json"]
+packages = ["src/wireform"]
 
 [tool.ruff]
 line-length = 120

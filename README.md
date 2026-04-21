@@ -1,27 +1,27 @@
-# custom-json
+# wireform
 
-[![PyPI](https://img.shields.io/pypi/v/custom-json.svg?label=PyPI)](https://pypi.org/project/custom-json/)
-[![Python](https://img.shields.io/pypi/pyversions/custom-json.svg?label=Python)](https://pypi.org/project/custom-json/)
-[![Tests](https://github.com/miriada-io/custom-json/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/miriada-io/custom-json/actions/workflows/tests.yml)
-[![License](https://img.shields.io/pypi/l/custom-json.svg?label=License)](https://github.com/miriada-io/custom-json/blob/master/LICENSE)
+[![PyPI](https://img.shields.io/pypi/v/wireform.svg?label=PyPI)](https://pypi.org/project/wireform/)
+[![Python](https://img.shields.io/pypi/pyversions/wireform.svg?label=Python)](https://pypi.org/project/wireform/)
+[![Tests](https://github.com/miriada-io/wireform/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/miriada-io/wireform/actions/workflows/tests.yml)
+[![License](https://img.shields.io/pypi/l/wireform.svg?label=License)](https://github.com/miriada-io/wireform/blob/master/LICENSE)
 
 A `json.dumps` drop-in that serializes dataclasses, `datetime`, `Decimal`, `bytes`, sets, exceptions, and anything that implements `__repr_in_dumps__`.
 
 ## Installation
 
 ```bash
-pip install custom-json
+pip install wireform
 ```
 
 Requires Python 3.11+.
 
-## Why custom-json?
+## Why wireform?
 
 The stdlib `json.dumps` refuses most real-world Python values:
 
 - `json.dumps(MyDataclass(...))` → `TypeError` — dataclasses are not serializable out of the box.
 - `json.dumps(datetime.now())` → `TypeError`; same for `date`, `time`, `Decimal`, `bytes`, `set`, `frozenset`, exceptions, and class objects.
-- Silently accepting naive `datetime` is a trap — the reader can't tell if the timestamp is UTC or local. `custom-json` refuses naive datetimes by design.
+- Silently accepting naive `datetime` is a trap — the reader can't tell if the timestamp is UTC or local. `wireform` refuses naive datetimes by design.
 - `dataclasses.asdict` exists, but doesn't respect `field(repr=False)` and can't coexist with custom encoders for other types.
 
 `custom_dumps` is a single callable that handles all of these without schemas, models, or configuration.
@@ -33,7 +33,7 @@ import datetime
 from dataclasses import dataclass
 from decimal import Decimal
 
-from custom_json import custom_dumps
+from wireform import custom_dumps
 
 @dataclass
 class Payment:
@@ -75,7 +75,7 @@ custom_dumps(datetime.datetime.now())
 A `partial(json.dumps, cls=EnhancedJSONEncoder)`. Same signature as `json.dumps`, same return type (`str`), but accepts the extended set of Python values listed below.
 
 ```python
-from custom_json import custom_dumps
+from wireform import custom_dumps
 
 custom_dumps({"a": 1, "b": [1, 2, 3]})
 # '{"a": 1, "b": [1, 2, 3]}'
@@ -102,7 +102,7 @@ The underlying `json.JSONEncoder` subclass. Pass it to `json.dumps(..., cls=Enha
 
 ```python
 import json
-from custom_json import EnhancedJSONEncoder
+from wireform import EnhancedJSONEncoder
 
 json.dumps({"x": {1, 2, 3}}, cls=EnhancedJSONEncoder, indent=2)
 ```
@@ -112,7 +112,7 @@ json.dumps({"x": {1, 2, 3}}, cls=EnhancedJSONEncoder, indent=2)
 Mixin that lets a class control its own JSON form. Subclass it and either (a) override `__repr_in_dumps__` to return any `Jsonable` value, or (b) rely on the default, which delegates to `repr(self)` and produces a JSON string.
 
 ```python
-from custom_json import ReprInDumps, custom_dumps
+from wireform import ReprInDumps, custom_dumps
 
 class Tag(ReprInDumps):
     def __init__(self, name: str):
@@ -144,7 +144,7 @@ custom_dumps(Version(1, 2))
 Open a file at the given path and parse it as JSON.
 
 ```python
-from custom_json import read_json_file_by_path
+from wireform import read_json_file_by_path
 
 data = read_json_file_by_path("config.json")
 ```
@@ -162,7 +162,7 @@ Returns a `JsonLoaded` — the exact tree shape you get from `json.load`.
 `typing.Protocol` matching the `json.dumps` signature. Use it when you want to type-hint a "something that behaves like `json.dumps`" parameter (e.g. to let callers swap `custom_dumps` for the stdlib version).
 
 ```python
-from custom_json import JsonDumper, custom_dumps
+from wireform import JsonDumper, custom_dumps
 
 def render(data, *, dumper: JsonDumper = custom_dumps) -> str:
     return dumper(data, indent=2)
@@ -170,8 +170,8 @@ def render(data, *, dumper: JsonDumper = custom_dumps) -> str:
 
 ## A Note on Roundtripping
 
-`custom_dumps` is a **one-way** encoder. Values like `set`, `bytes`, `Decimal`, class objects and exceptions are encoded to JSON-compatible forms, but `json.loads` will give you back the *encoded* shape (`list`, `str`, etc.), not the original Python type. Use `custom-json` when you need to emit JSON — not when you need a serializer/deserializer round-trip.
+`custom_dumps` is a **one-way** encoder. Values like `set`, `bytes`, `Decimal`, class objects and exceptions are encoded to JSON-compatible forms, but `json.loads` will give you back the *encoded* shape (`list`, `str`, etc.), not the original Python type. Use `wireform` when you need to emit JSON — not when you need a serializer/deserializer round-trip.
 
 ## License
 
-[MIT](https://github.com/miriada-io/custom-json/blob/master/LICENSE)
+[MIT](https://github.com/miriada-io/wireform/blob/master/LICENSE)

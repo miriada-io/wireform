@@ -6,7 +6,7 @@ from typing import Any, ClassVar
 import pytest
 from _pytest.mark import param
 
-from custom_json import ReprInDumps, custom_dumps
+from wireform import ReprInDumps, custom_dumps
 
 
 class ExampleReprInDumpsClass(ReprInDumps):
