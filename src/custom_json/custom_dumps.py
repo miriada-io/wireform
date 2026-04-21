@@ -1,10 +1,3 @@
-#  Copyright (C) 2026
-#  ABM, Moscow
-#
-#  UNPUBLISHED PROPRIETARY MATERIAL.
-#  ALL RIGHTS RESERVED.
-#
-#  Authors: Mike Orlov <m.orlov@abm-jsc.ru>
 import base64
 import datetime
 import json
@@ -12,10 +5,10 @@ from dataclasses import is_dataclass
 from decimal import Decimal
 from functools import partial
 
-from type_cast import get_dataclass_field_name_to_field
+from typeful import get_dataclass_field_name_to_field
 
-from .repr_in_dumps import ReprInDumps
 from .json_dumper import JsonDumper
+from .repr_in_dumps import ReprInDumps
 
 
 class EnhancedJSONEncoder(json.JSONEncoder):
@@ -23,7 +16,7 @@ class EnhancedJSONEncoder(json.JSONEncoder):
         if isinstance(o, ReprInDumps):
             return o.__repr_in_dumps__()
         if isinstance(o, type):
-            return {'_t': 'PY::class', 'key': o.__qualname__}
+            return {"_t": "PY::class", "key": o.__qualname__}
         if is_dataclass(o):
             return {
                 key: getattr(o, key)
@@ -38,11 +31,11 @@ class EnhancedJSONEncoder(json.JSONEncoder):
         if isinstance(o, set | frozenset):
             return tuple(o)
         if isinstance(o, bytes):
-            return f'data:application/octet-stream;base64,{base64.b64encode(o).decode("utf-8")}'
+            return f"data:application/octet-stream;base64,{base64.b64encode(o).decode('utf-8')}"
         if isinstance(o, Decimal):
             return str(o)
         if isinstance(o, Exception):
-            return {'_t': 'PY::Exception', 'key': type(o).__qualname__, 'args': o.args}
+            return {"_t": "PY::Exception", "key": type(o).__qualname__, "args": o.args}
         return super().default(o)
 
 
