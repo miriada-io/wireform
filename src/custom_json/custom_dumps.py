@@ -5,7 +5,7 @@ from dataclasses import is_dataclass
 from decimal import Decimal
 from functools import partial
 
-from type_cast import get_dataclass_field_name_to_field
+from typeful import get_dataclass_field_name_to_field
 
 from .repr_in_dumps import ReprInDumps
 from .json_dumper import JsonDumper

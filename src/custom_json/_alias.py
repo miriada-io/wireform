@@ -2,7 +2,7 @@ import datetime
 from decimal import Decimal
 from typing import TypeAlias, Union
 
-from type_cast import DataclassProtocol
+from typeful import DataclassProtocol
 
 from .repr_in_dumps import ReprInDumps
 
